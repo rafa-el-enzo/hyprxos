@@ -15,8 +15,17 @@
       inherit system;
       modules = [
         ./hosts/nixos/configuration.nix
+        ./hosts/nixos/hardware-configuration.nix
         home-manager.nixosModules.home-manager
       ];
     };
+
+
+    homeConfigurations.rafa-el-enzo =
+    home-manager.lib.homeManagerConfiguration {
+    pkgs = nixpkgs.legacyPackages.${system};
+    modules = [ ./home/rafa-el-enzo/home.nix ];
+    
+      };
   };
 }
