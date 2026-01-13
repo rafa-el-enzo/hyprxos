@@ -12,9 +12,10 @@
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
-      modules = [
-        /etc/nixos/configuration.nix  # usamos tu config actual
-      ];
+    modules = [
+        ./hosts/nixos/configuration.nix
+    ];
+
     };
 
     homeConfigurations.rafa-el-enzo = home-manager.lib.homeManagerConfiguration {
