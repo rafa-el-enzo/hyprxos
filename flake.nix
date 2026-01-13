@@ -1,28 +1,22 @@
 {
-  description = "Mi configuración NixOS mínima con Hyprland y Home Manager";
+  description = "Sistema NixOS modular y replicable";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11"; # versión estable
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
     home-manager.url = "github:nix-community/home-manager";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, home-manager }:
+  outputs = { self, nixpkgs, home-manager, ... }:
   let
     system = "x86_64-linux";
   in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       inherit system;
-    modules = [
+      modules = [
         ./hosts/nixos/configuration.nix
-    ];
-
-    };
-
-    homeConfigurations.rafa-el-enzo = home-manager.lib.homeManagerConfiguration {
-      inherit system;
-      username = "rafa-el-enzo";
-      homeDirectory = "/home/rafa-el-enzo";
-      configuration = ./home/rafa-el-enzo/home.nix;
+        home-manager.nixosModules.home-manager
+      ];
     };
   };
 }
